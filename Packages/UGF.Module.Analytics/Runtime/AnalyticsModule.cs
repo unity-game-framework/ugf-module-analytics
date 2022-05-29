@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using UGF.Application.Runtime;
 using UGF.Initialize.Runtime;
+using UGF.Logs.Runtime;
 
 namespace UGF.Module.Analytics.Runtime
 {
@@ -21,6 +22,9 @@ namespace UGF.Module.Analytics.Runtime
             if (await OnEnableAsync())
             {
                 m_state = m_state.Initialize();
+
+                Log.Debug("Analytics module enabled.");
+
                 return true;
             }
 
@@ -30,6 +34,8 @@ namespace UGF.Module.Analytics.Runtime
         public Task DisableAsync()
         {
             m_state = m_state.Uninitialize();
+
+            Log.Debug("Analytics module disabled.");
 
             return OnDisableAsync();
         }
