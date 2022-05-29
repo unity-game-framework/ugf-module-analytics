@@ -21,7 +21,6 @@ namespace UGF.Module.Analytics.Runtime
             if (await OnEnableAsync())
             {
                 m_state = m_state.Initialize();
-
                 return true;
             }
 
@@ -38,6 +37,7 @@ namespace UGF.Module.Analytics.Runtime
         public void SendEvent<T>(string name, T data) where T : IAnalyticsEventData
         {
             if (string.IsNullOrEmpty(name)) throw new ArgumentException("Value cannot be null or empty.", nameof(name));
+            if (!IsEnabled) throw new InvalidOperationException("Analytics is not enabled.");
 
             OnSendEvent(name, OnGetEventData(name, data));
         }
@@ -46,6 +46,7 @@ namespace UGF.Module.Analytics.Runtime
         {
             if (string.IsNullOrEmpty(name)) throw new ArgumentException("Value cannot be null or empty.", nameof(name));
             if (data == null) throw new ArgumentNullException(nameof(data));
+            if (!IsEnabled) throw new InvalidOperationException("Analytics is not enabled.");
 
             OnSendEvent(name, OnGetEventData(name, data));
         }
