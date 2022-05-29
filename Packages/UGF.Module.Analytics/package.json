@@ -2,7 +2,7 @@
   "name": "com.ugf.module.analytics",
   "displayName": "UGF.Module.Analytics",
   "version": "0.0.0-preview",
-  "unity": "2021.3",
+  "unity": "2022.1",
   "apiCompatibility": ".NET Standard 2.1",
   "description": "Module to manager Unity Analytics.",
   "author": {
@@ -18,5 +18,8 @@
   "publishConfig": {
     "registry": "https://unitygameframework.jfrog.io/artifactory/api/npm/default"
   },
-  "dependencies": {}
+  "dependencies": {
+    "com.ugf.application": "8.1.0",
+    "com.unity.services.analytics": "4.0.0-pre.3"
+  }
 }
