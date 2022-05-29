@@ -12,7 +12,7 @@ namespace UGF.Module.Analytics.Runtime
 
         public static void Send<T>(string name, T data) where T : IAnalyticsEventData
         {
-            ApplicationInstance.Application.GetModule<IAnalyticsModule>().SendEvent(name, data);
+            ApplicationInstance.Application.SendAnalytics(name, data);
         }
 
         public static void Send(IAnalyticsEventData data)
@@ -27,7 +27,7 @@ namespace UGF.Module.Analytics.Runtime
 
         public static void Send(string name, IAnalyticsEventData data)
         {
-            ApplicationInstance.Application.GetModule<IAnalyticsModule>().SendEvent(name, data);
+            ApplicationInstance.Application.SendAnalytics(name, data);
         }
     }
 }
