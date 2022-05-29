@@ -1,7 +1,7 @@
 {
   "name": "com.ugf.module.analytics",
   "displayName": "UGF.Module.Analytics",
-  "version": "0.0.0-preview",
+  "version": "1.0.0-preview",
   "unity": "2022.1",
   "apiCompatibility": ".NET Standard 2.1",
   "description": "Module to manager Unity Analytics.",
