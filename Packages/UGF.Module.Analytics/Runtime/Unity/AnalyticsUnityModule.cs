@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using UGF.Application.Runtime;
+using UGF.Logs.Runtime;
 using Unity.Services.Analytics;
 using Unity.Services.Core;
 
@@ -29,6 +30,11 @@ namespace UGF.Module.Analytics.Runtime.Unity
             }
 
             List<string> ids = await Service.CheckForRequiredConsents();
+
+            Log.Debug("Analytics Unity module enable", new
+            {
+                consents = ids.Count
+            });
 
             return ids.Count == 0;
         }
