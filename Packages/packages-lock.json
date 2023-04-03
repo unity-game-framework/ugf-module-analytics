@@ -93,13 +93,13 @@
       "depth": 0,
       "source": "embedded",
       "dependencies": {
-        "com.ugf.module.services": "1.0.0-preview",
+        "com.ugf.module.services": "1.0.0-preview.1",
         "com.ugf.editortools": "2.15.0",
         "com.unity.services.analytics": "4.4.1"
       }
     },
     "com.ugf.module.services": {
-      "version": "1.0.0-preview",
+      "version": "1.0.0-preview.1",
       "depth": 1,
       "source": "registry",
       "dependencies": {
