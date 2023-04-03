@@ -1,0 +1,17 @@
+{
+    "name": "UGF.Module.Analytics.Editor",
+    "rootNamespace": "UGF.Module.Analytics.Editor",
+    "references": [
+        "GUID:e14fd01ef91c68c4fa79077bd5081984",
+        "GUID:abdd615e45137c74ca2ce9c636c78c15"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

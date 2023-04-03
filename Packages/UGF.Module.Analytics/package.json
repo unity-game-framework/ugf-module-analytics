@@ -20,6 +20,7 @@
   },
   "dependencies": {
     "com.ugf.module.services": "1.0.0-preview",
+    "com.ugf.editortools": "2.15.0",
     "com.unity.services.analytics": "4.4.1"
   }
 }

@@ -3,7 +3,6 @@ using System.Threading.Tasks;
 using UGF.Application.Runtime;
 using UGF.Logs.Runtime;
 using Unity.Services.Analytics;
-using Unity.Services.Core;
 
 namespace UGF.Module.Analytics.Runtime.Unity
 {
@@ -11,24 +10,12 @@ namespace UGF.Module.Analytics.Runtime.Unity
     {
         public IAnalyticsService Service { get { return AnalyticsService.Instance; } }
 
-        private readonly Dictionary<string, object> m_data = new Dictionary<string, object>();
-
         public AnalyticsUnityModule(AnalyticsUnityModuleDescription description, IApplication application) : base(description, application)
         {
         }
 
         protected override async Task<bool> OnEnableAsync()
         {
-            if (UnityServices.State == ServicesInitializationState.Uninitialized)
-            {
-                await UnityServices.InitializeAsync();
-            }
-
-            while (UnityServices.State == ServicesInitializationState.Initializing)
-            {
-                await Task.Yield();
-            }
-
             List<string> ids = await Service.CheckForRequiredConsents();
 
             Log.Debug("Analytics Unity module enable", new
@@ -51,9 +38,11 @@ namespace UGF.Module.Analytics.Runtime.Unity
 
         protected override IDictionary<string, object> OnGetEventData<T>(string name, T data)
         {
-            data.GetData(m_data);
+            var collection = new Dictionary<string, object>();
 
-            return m_data;
+            data.GetData(collection);
+
+            return collection;
         }
     }
 }
