@@ -5,6 +5,22 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.0.0-preview.2](https://github.com/unity-game-framework/ugf-module-analytics/releases/tag/1.0.0-preview.2) - 2023-04-03  
+
+### Release Notes
+
+- [Milestone](https://github.com/unity-game-framework/ugf-module-analytics/milestone/3?closed=1)  
+    
+
+### Changed
+
+- Change to user services module ([#5](https://github.com/unity-game-framework/ugf-module-analytics/issues/5))  
+    - Update dependencies: `com.unity.services.analytics` to `4.4.1` and add `com.ugf.module.services` of `1.0.0-preview.1` version.
+    - Update package _Unity_ version to `2022.2`.
+    - Add `AnalyticsEventDescription` class as description of the event.
+    - Add `IAnalyticsModule.SendEvent()` methods to send event by description id.
+    - Remove `AnalyticsUnityModule` initialization of the global services, `IServicesModule` used instead.
+
 ## [1.0.0-preview.1](https://github.com/unity-game-framework/ugf-module-analytics/releases/tag/1.0.0-preview.1) - 2022-05-29  
 
 ### Release Notes

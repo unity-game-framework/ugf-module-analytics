@@ -4,14 +4,15 @@ UGF.Module.Analytics
 
 ## Information
 
-- **Version**: `1.0.0-preview.1`
-- **Unity**: `2022.1`
+- **Version**: `1.0.0-preview.2`
+- **Unity**: `2022.2`
 - **API Compatibility Level**: `.NET Standard 2.1`
 
 ### Dependencies
 
-- `com.ugf.application`: `8.1.0`
-- `com.unity.services.analytics`: `4.0.0-pre.3`
+- `com.ugf.module.services`: `1.0.0-preview.1`
+- `com.ugf.editortools`: `2.15.0`
+- `com.unity.services.analytics`: `4.4.1`
 
 
 ### Description
