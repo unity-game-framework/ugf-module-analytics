@@ -26,7 +26,7 @@ namespace UGF.Module.Analytics.Runtime.Unity
                 events.Add(reference.Guid, reference.Asset.Build());
             }
 
-            return new AnalyticsModuleDescription(
+            return new AnalyticsUnityModuleDescription(
                 typeof(IAnalyticsModule),
                 m_enableOnInitializeAsync,
                 events
