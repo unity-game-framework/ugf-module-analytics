@@ -60,7 +60,7 @@ namespace UGF.Module.Analytics.Runtime
 
             IAnalyticsEventDescription description = GetEventDescription(eventId);
 
-            OnSendEvent(description.Name, OnGetEventData(description.Name, data));
+            OnSendEvent(description, OnGetEventData(description, data));
         }
 
         public void SendEvent(GlobalId eventId, IAnalyticsEventData data)
@@ -70,24 +70,7 @@ namespace UGF.Module.Analytics.Runtime
 
             IAnalyticsEventDescription description = GetEventDescription(eventId);
 
-            OnSendEvent(description.Name, OnGetEventData(description.Name, data));
-        }
-
-        public void SendEvent<T>(string name, T data) where T : IAnalyticsEventData
-        {
-            if (string.IsNullOrEmpty(name)) throw new ArgumentException("Value cannot be null or empty.", nameof(name));
-            if (!IsEnabled) throw new InvalidOperationException("Analytics is not enabled.");
-
-            OnSendEvent(name, OnGetEventData(name, data));
-        }
-
-        public void SendEvent(string name, IAnalyticsEventData data)
-        {
-            if (string.IsNullOrEmpty(name)) throw new ArgumentException("Value cannot be null or empty.", nameof(name));
-            if (data == null) throw new ArgumentNullException(nameof(data));
-            if (!IsEnabled) throw new InvalidOperationException("Analytics is not enabled.");
-
-            OnSendEvent(name, OnGetEventData(name, data));
+            OnSendEvent(description, OnGetEventData(description, data));
         }
 
         public void SendEvent(GlobalId eventId)
@@ -96,14 +79,7 @@ namespace UGF.Module.Analytics.Runtime
 
             IAnalyticsEventDescription description = GetEventDescription(eventId);
 
-            OnSendEvent(description.Name);
-        }
-
-        public void SendEvent(string name)
-        {
-            if (string.IsNullOrEmpty(name)) throw new ArgumentException("Value cannot be null or empty.", nameof(name));
-
-            OnSendEvent(name);
+            OnSendEvent(description);
         }
 
         public T GetEventDescription<T>(GlobalId eventId) where T : class, IAnalyticsEventDescription
@@ -137,8 +113,16 @@ namespace UGF.Module.Analytics.Runtime
 
         protected abstract Task<bool> OnEnableAsync();
         protected abstract Task OnDisableAsync();
-        protected abstract void OnSendEvent(string name, IDictionary<string, object> data);
-        protected abstract void OnSendEvent(string name);
-        protected abstract IDictionary<string, object> OnGetEventData<T>(string name, T data) where T : IAnalyticsEventData;
+        protected abstract void OnSendEvent(IAnalyticsEventDescription description, IDictionary<string, object> data);
+        protected abstract void OnSendEvent(IAnalyticsEventDescription description);
+
+        protected virtual IDictionary<string, object> OnGetEventData<T>(IAnalyticsEventDescription description, T data) where T : IAnalyticsEventData
+        {
+            var dictionary = new Dictionary<string, object>();
+
+            data.GetData(description, dictionary);
+
+            return dictionary;
+        }
     }
 }

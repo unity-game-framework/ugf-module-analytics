@@ -12,8 +12,9 @@ namespace UGF.Module.Analytics.Runtime
             Data = data ?? throw new ArgumentNullException(nameof(data));
         }
 
-        public void GetData(IDictionary<string, object> data)
+        public void GetData(IAnalyticsEventDescription description, IDictionary<string, object> data)
         {
+            if (description == null) throw new ArgumentNullException(nameof(description));
             if (data == null) throw new ArgumentNullException(nameof(data));
 
             foreach (KeyValuePair<string, object> pair in Data)
