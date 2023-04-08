@@ -90,6 +90,22 @@ namespace UGF.Module.Analytics.Runtime
             OnSendEvent(name, OnGetEventData(name, data));
         }
 
+        public void SendEvent(GlobalId eventId)
+        {
+            if (!eventId.IsValid()) throw new ArgumentException("Value should be valid.", nameof(eventId));
+
+            IAnalyticsEventDescription description = GetEventDescription(eventId);
+
+            OnSendEvent(description.Name);
+        }
+
+        public void SendEvent(string name)
+        {
+            if (string.IsNullOrEmpty(name)) throw new ArgumentException("Value cannot be null or empty.", nameof(name));
+
+            OnSendEvent(name);
+        }
+
         public T GetEventDescription<T>(GlobalId eventId) where T : class, IAnalyticsEventDescription
         {
             return (T)GetEventDescription(eventId);
@@ -122,6 +138,7 @@ namespace UGF.Module.Analytics.Runtime
         protected abstract Task<bool> OnEnableAsync();
         protected abstract Task OnDisableAsync();
         protected abstract void OnSendEvent(string name, IDictionary<string, object> data);
+        protected abstract void OnSendEvent(string name);
         protected abstract IDictionary<string, object> OnGetEventData<T>(string name, T data) where T : IAnalyticsEventData;
     }
 }

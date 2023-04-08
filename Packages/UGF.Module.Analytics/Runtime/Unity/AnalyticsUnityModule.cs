@@ -36,6 +36,11 @@ namespace UGF.Module.Analytics.Runtime.Unity
             Service.CustomData(name, data);
         }
 
+        protected override void OnSendEvent(string name)
+        {
+            Service.CustomData(name);
+        }
+
         protected override IDictionary<string, object> OnGetEventData<T>(string name, T data)
         {
             var collection = new Dictionary<string, object>();
