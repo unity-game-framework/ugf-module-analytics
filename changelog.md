@@ -5,6 +5,23 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.0.0-preview.5](https://github.com/unity-game-framework/ugf-module-analytics/releases/tag/1.0.0-preview.5) - 2023-04-08  
+
+### Release Notes
+
+- [Milestone](https://github.com/unity-game-framework/ugf-module-analytics/milestone/6?closed=1)  
+    
+
+### Added
+
+- Add event data with parameters description ([#11](https://github.com/unity-game-framework/ugf-module-analytics/issues/11))  
+    - Update dependencies: `com.ugf.application` to `8.5.0` version.
+    - Add `IAnalyticsEventDescription` interface as abstract access to the event description.
+    - Add `IAnalyticsModule.SendEvent()` method with event id only used to send event without parameters.
+    - Change `IAnalyticsEventData.GetParameters()` method to accept `IAnalyticsEventDescription` interface as argument which can used to setup parameters.
+    - Remove `IAnalyticsModule.SendEvent()` methods with name as argument.
+    - Remove `AnalyticsEvents` and `AnalyticsApplicationExtensions` classes.
+
 ## [1.0.0-preview.4](https://github.com/unity-game-framework/ugf-module-analytics/releases/tag/1.0.0-preview.4) - 2023-04-07  
 
 ### Release Notes
