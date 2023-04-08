@@ -31,9 +31,9 @@ namespace UGF.Module.Analytics.Runtime.Unity
             await Service.SetAnalyticsEnabled(false);
         }
 
-        protected override void OnSendEvent(IAnalyticsEventDescription description, IDictionary<string, object> data)
+        protected override void OnSendEvent(IAnalyticsEventDescription description, IDictionary<string, object> parameters)
         {
-            Service.CustomData(description.Name, data);
+            Service.CustomData(description.Name, parameters);
         }
 
         protected override void OnSendEvent(IAnalyticsEventDescription description)

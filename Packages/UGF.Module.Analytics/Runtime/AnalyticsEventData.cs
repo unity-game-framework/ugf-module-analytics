@@ -5,21 +5,21 @@ namespace UGF.Module.Analytics.Runtime
 {
     public readonly struct AnalyticsEventData : IAnalyticsEventData
     {
-        public IDictionary<string, object> Data { get; }
+        public IDictionary<string, object> Parameters { get; }
 
-        public AnalyticsEventData(IDictionary<string, object> data)
+        public AnalyticsEventData(IDictionary<string, object> parameters)
         {
-            Data = data ?? throw new ArgumentNullException(nameof(data));
+            Parameters = parameters ?? throw new ArgumentNullException(nameof(parameters));
         }
 
-        public void GetData(IAnalyticsEventDescription description, IDictionary<string, object> data)
+        public void GetParameters(IAnalyticsEventDescription description, IDictionary<string, object> parameters)
         {
             if (description == null) throw new ArgumentNullException(nameof(description));
-            if (data == null) throw new ArgumentNullException(nameof(data));
+            if (parameters == null) throw new ArgumentNullException(nameof(parameters));
 
-            foreach (KeyValuePair<string, object> pair in Data)
+            foreach ((string key, object value) in Parameters)
             {
-                data.Add(pair.Key, pair.Value);
+                parameters.Add(key, value);
             }
         }
     }

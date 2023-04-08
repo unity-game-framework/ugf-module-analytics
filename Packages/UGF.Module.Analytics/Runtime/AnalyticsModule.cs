@@ -59,8 +59,9 @@ namespace UGF.Module.Analytics.Runtime
             if (!IsEnabled) throw new InvalidOperationException("Analytics is not enabled.");
 
             IAnalyticsEventDescription description = GetEventDescription(eventId);
+            IDictionary<string, object> parameters = OnGetEventParameters(description, data);
 
-            OnSendEvent(description, OnGetEventData(description, data));
+            OnSendEvent(description, parameters);
         }
 
         public void SendEvent(GlobalId eventId, IAnalyticsEventData data)
@@ -69,8 +70,9 @@ namespace UGF.Module.Analytics.Runtime
             if (!IsEnabled) throw new InvalidOperationException("Analytics is not enabled.");
 
             IAnalyticsEventDescription description = GetEventDescription(eventId);
+            IDictionary<string, object> parameters = OnGetEventParameters(description, data);
 
-            OnSendEvent(description, OnGetEventData(description, data));
+            OnSendEvent(description, parameters);
         }
 
         public void SendEvent(GlobalId eventId)
@@ -113,16 +115,16 @@ namespace UGF.Module.Analytics.Runtime
 
         protected abstract Task<bool> OnEnableAsync();
         protected abstract Task OnDisableAsync();
-        protected abstract void OnSendEvent(IAnalyticsEventDescription description, IDictionary<string, object> data);
+        protected abstract void OnSendEvent(IAnalyticsEventDescription description, IDictionary<string, object> parameters);
         protected abstract void OnSendEvent(IAnalyticsEventDescription description);
 
-        protected virtual IDictionary<string, object> OnGetEventData<T>(IAnalyticsEventDescription description, T data) where T : IAnalyticsEventData
+        protected virtual IDictionary<string, object> OnGetEventParameters<T>(IAnalyticsEventDescription description, T data) where T : IAnalyticsEventData
         {
-            var dictionary = new Dictionary<string, object>();
+            var parameters = new Dictionary<string, object>();
 
-            data.GetData(description, dictionary);
+            data.GetParameters(description, parameters);
 
-            return dictionary;
+            return parameters;
         }
     }
 }

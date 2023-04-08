@@ -16,7 +16,7 @@ namespace UGF.Module.Analytics.Runtime.Tests
             Value = value;
         }
 
-        public void GetData(IAnalyticsEventDescription description, IDictionary<string, object> data)
+        public void GetParameters(IAnalyticsEventDescription description, IDictionary<string, object> data)
         {
             if (description is not TestAnalyticsDataDescription eventDescription) throw new ArgumentException("Event description type mismatch.");
             if (data == null) throw new ArgumentNullException(nameof(data));
