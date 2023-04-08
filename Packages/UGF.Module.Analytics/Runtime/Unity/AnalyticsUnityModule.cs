@@ -31,18 +31,14 @@ namespace UGF.Module.Analytics.Runtime.Unity
             await Service.SetAnalyticsEnabled(false);
         }
 
-        protected override void OnSendEvent(string name, IDictionary<string, object> data)
+        protected override void OnSendEvent(IAnalyticsEventDescription description, IDictionary<string, object> parameters)
         {
-            Service.CustomData(name, data);
+            Service.CustomData(description.Name, parameters);
         }
 
-        protected override IDictionary<string, object> OnGetEventData<T>(string name, T data)
+        protected override void OnSendEvent(IAnalyticsEventDescription description)
         {
-            var collection = new Dictionary<string, object>();
-
-            data.GetData(collection);
-
-            return collection;
+            Service.CustomData(description.Name);
         }
     }
 }

@@ -9,7 +9,7 @@ namespace UGF.Module.Analytics.Runtime.Unity
         public AnalyticsUnityModuleDescription(
             Type registerType,
             bool enableOnInitializeAsync,
-            IReadOnlyDictionary<GlobalId, AnalyticsEventDescription> eventDescriptions) : base(registerType, enableOnInitializeAsync, eventDescriptions)
+            IReadOnlyDictionary<GlobalId, IAnalyticsEventDescription> eventDescriptions) : base(registerType, enableOnInitializeAsync, eventDescriptions)
         {
         }
     }

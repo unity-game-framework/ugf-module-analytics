@@ -16,12 +16,28 @@ namespace UGF.Module.Analytics.Runtime.Tests
             Value = value;
         }
 
-        public void GetData(IDictionary<string, object> data)
+        public void GetParameters(IAnalyticsEventDescription description, IDictionary<string, object> data)
         {
+            if (description is not TestAnalyticsDataDescription eventDescription) throw new ArgumentException("Event description type mismatch.");
             if (data == null) throw new ArgumentNullException(nameof(data));
 
-            data["name"] = Name;
-            data["value"] = Value;
+            data.Add(eventDescription.NameParameterName, Name);
+            data.Add(eventDescription.ValueParameterName, Value);
+        }
+    }
+
+    public class TestAnalyticsDataDescription : AnalyticsEventDescription
+    {
+        public string NameParameterName { get; }
+        public string ValueParameterName { get; }
+
+        public TestAnalyticsDataDescription(string name, string nameParameterName, string valueParameterName) : base(name)
+        {
+            if (string.IsNullOrEmpty(nameParameterName)) throw new ArgumentException("Value cannot be null or empty.", nameof(nameParameterName));
+            if (string.IsNullOrEmpty(valueParameterName)) throw new ArgumentException("Value cannot be null or empty.", nameof(valueParameterName));
+
+            NameParameterName = nameParameterName;
+            ValueParameterName = valueParameterName;
         }
     }
 }

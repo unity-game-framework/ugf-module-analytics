@@ -17,7 +17,7 @@ namespace UGF.Module.Analytics.Runtime.Unity
 
         protected override IApplicationModuleDescription OnBuildDescription()
         {
-            var events = new Dictionary<GlobalId, AnalyticsEventDescription>();
+            var events = new Dictionary<GlobalId, IAnalyticsEventDescription>();
 
             for (int i = 0; i < m_events.Count; i++)
             {

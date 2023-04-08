@@ -12,6 +12,8 @@ namespace UGF.Module.Analytics.Runtime
     {
         public bool IsEnabled { get { return m_state; } }
 
+        IAnalyticsModuleDescription IAnalyticsModule.Description { get { return Description; } }
+
         private InitializeState m_state;
 
         protected AnalyticsModule(TDescription description, IApplication application) : base(description, application)
@@ -56,9 +58,10 @@ namespace UGF.Module.Analytics.Runtime
             if (!eventId.IsValid()) throw new ArgumentException("Value should be valid.", nameof(eventId));
             if (!IsEnabled) throw new InvalidOperationException("Analytics is not enabled.");
 
-            AnalyticsEventDescription description = GetEventDescription(eventId);
+            IAnalyticsEventDescription description = GetEventDescription(eventId);
+            IDictionary<string, object> parameters = OnGetEventParameters(description, data);
 
-            OnSendEvent(description.Name, OnGetEventData(description.Name, data));
+            OnSendEvent(description, parameters);
         }
 
         public void SendEvent(GlobalId eventId, IAnalyticsEventData data)
@@ -66,41 +69,62 @@ namespace UGF.Module.Analytics.Runtime
             if (!eventId.IsValid()) throw new ArgumentException("Value should be valid.", nameof(eventId));
             if (!IsEnabled) throw new InvalidOperationException("Analytics is not enabled.");
 
-            AnalyticsEventDescription description = GetEventDescription(eventId);
+            IAnalyticsEventDescription description = GetEventDescription(eventId);
+            IDictionary<string, object> parameters = OnGetEventParameters(description, data);
 
-            OnSendEvent(description.Name, OnGetEventData(description.Name, data));
+            OnSendEvent(description, parameters);
         }
 
-        public void SendEvent<T>(string name, T data) where T : IAnalyticsEventData
+        public void SendEvent(GlobalId eventId)
         {
-            if (string.IsNullOrEmpty(name)) throw new ArgumentException("Value cannot be null or empty.", nameof(name));
-            if (!IsEnabled) throw new InvalidOperationException("Analytics is not enabled.");
+            if (!eventId.IsValid()) throw new ArgumentException("Value should be valid.", nameof(eventId));
 
-            OnSendEvent(name, OnGetEventData(name, data));
+            IAnalyticsEventDescription description = GetEventDescription(eventId);
+
+            OnSendEvent(description);
         }
 
-        public void SendEvent(string name, IAnalyticsEventData data)
+        public T GetEventDescription<T>(GlobalId eventId) where T : class, IAnalyticsEventDescription
         {
-            if (string.IsNullOrEmpty(name)) throw new ArgumentException("Value cannot be null or empty.", nameof(name));
-            if (data == null) throw new ArgumentNullException(nameof(data));
-            if (!IsEnabled) throw new InvalidOperationException("Analytics is not enabled.");
-
-            OnSendEvent(name, OnGetEventData(name, data));
+            return (T)GetEventDescription(eventId);
         }
 
-        public AnalyticsEventDescription GetEventDescription(GlobalId eventId)
+        public IAnalyticsEventDescription GetEventDescription(GlobalId eventId)
         {
-            return TryGetEventDescription(eventId, out AnalyticsEventDescription description) ? description : throw new ArgumentException($"Analytics event description not found by the specified id: '{eventId}'.");
+            return TryGetEventDescription(eventId, out IAnalyticsEventDescription description) ? description : throw new ArgumentException($"Analytics event description not found by the specified id: '{eventId}'.");
         }
 
-        public bool TryGetEventDescription(GlobalId eventId, out AnalyticsEventDescription description)
+        public bool TryGetEventDescription<T>(GlobalId eventId, out T description) where T : class, IAnalyticsEventDescription
         {
-            return Description.EventDescriptions.TryGetValue(eventId, out description);
+            if (TryGetEventDescription(eventId, out IAnalyticsEventDescription result))
+            {
+                description = (T)result;
+                return true;
+            }
+
+            description = default;
+            return false;
+        }
+
+        public bool TryGetEventDescription(GlobalId eventId, out IAnalyticsEventDescription description)
+        {
+            if (!eventId.IsValid()) throw new ArgumentException("Value should be valid.", nameof(eventId));
+
+            return Description.Events.TryGetValue(eventId, out description);
         }
 
         protected abstract Task<bool> OnEnableAsync();
         protected abstract Task OnDisableAsync();
-        protected abstract void OnSendEvent(string name, IDictionary<string, object> data);
-        protected abstract IDictionary<string, object> OnGetEventData<T>(string name, T data) where T : IAnalyticsEventData;
+        protected abstract void OnSendEvent(IAnalyticsEventDescription description, IDictionary<string, object> parameters);
+        protected abstract void OnSendEvent(IAnalyticsEventDescription description);
+
+        protected virtual IDictionary<string, object> OnGetEventParameters<T>(IAnalyticsEventDescription description, T data) where T : IAnalyticsEventData
+        {
+            var parameters = new Dictionary<string, object>();
+
+            data.GetParameters(description, parameters);
+
+            return parameters;
+        }
     }
 }
