@@ -3,7 +3,7 @@ using UGF.Description.Runtime;
 
 namespace UGF.Module.Analytics.Runtime
 {
-    public class AnalyticsEventDescription : DescriptionBase
+    public class AnalyticsEventDescription : DescriptionBase, IAnalyticsEventDescription
     {
         public string Name { get; }
 

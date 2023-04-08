@@ -12,6 +12,8 @@ namespace UGF.Module.Analytics.Runtime
     {
         public bool IsEnabled { get { return m_state; } }
 
+        IAnalyticsModuleDescription IAnalyticsModule.Description { get { return Description; } }
+
         private InitializeState m_state;
 
         protected AnalyticsModule(TDescription description, IApplication application) : base(description, application)
@@ -56,7 +58,7 @@ namespace UGF.Module.Analytics.Runtime
             if (!eventId.IsValid()) throw new ArgumentException("Value should be valid.", nameof(eventId));
             if (!IsEnabled) throw new InvalidOperationException("Analytics is not enabled.");
 
-            AnalyticsEventDescription description = GetEventDescription(eventId);
+            IAnalyticsEventDescription description = GetEventDescription(eventId);
 
             OnSendEvent(description.Name, OnGetEventData(description.Name, data));
         }
@@ -66,7 +68,7 @@ namespace UGF.Module.Analytics.Runtime
             if (!eventId.IsValid()) throw new ArgumentException("Value should be valid.", nameof(eventId));
             if (!IsEnabled) throw new InvalidOperationException("Analytics is not enabled.");
 
-            AnalyticsEventDescription description = GetEventDescription(eventId);
+            IAnalyticsEventDescription description = GetEventDescription(eventId);
 
             OnSendEvent(description.Name, OnGetEventData(description.Name, data));
         }
@@ -88,14 +90,33 @@ namespace UGF.Module.Analytics.Runtime
             OnSendEvent(name, OnGetEventData(name, data));
         }
 
-        public AnalyticsEventDescription GetEventDescription(GlobalId eventId)
+        public T GetEventDescription<T>(GlobalId eventId) where T : class, IAnalyticsEventDescription
         {
-            return TryGetEventDescription(eventId, out AnalyticsEventDescription description) ? description : throw new ArgumentException($"Analytics event description not found by the specified id: '{eventId}'.");
+            return (T)GetEventDescription(eventId);
         }
 
-        public bool TryGetEventDescription(GlobalId eventId, out AnalyticsEventDescription description)
+        public IAnalyticsEventDescription GetEventDescription(GlobalId eventId)
         {
-            return Description.EventDescriptions.TryGetValue(eventId, out description);
+            return TryGetEventDescription(eventId, out IAnalyticsEventDescription description) ? description : throw new ArgumentException($"Analytics event description not found by the specified id: '{eventId}'.");
+        }
+
+        public bool TryGetEventDescription<T>(GlobalId eventId, out T description) where T : class, IAnalyticsEventDescription
+        {
+            if (TryGetEventDescription(eventId, out IAnalyticsEventDescription result))
+            {
+                description = (T)result;
+                return true;
+            }
+
+            description = default;
+            return false;
+        }
+
+        public bool TryGetEventDescription(GlobalId eventId, out IAnalyticsEventDescription description)
+        {
+            if (!eventId.IsValid()) throw new ArgumentException("Value should be valid.", nameof(eventId));
+
+            return Description.Events.TryGetValue(eventId, out description);
         }
 
         protected abstract Task<bool> OnEnableAsync();

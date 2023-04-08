@@ -6,6 +6,7 @@ namespace UGF.Module.Analytics.Runtime
 {
     public interface IAnalyticsModule : IApplicationModule
     {
+        new IAnalyticsModuleDescription Description { get; }
         bool IsEnabled { get; }
 
         Task<bool> EnableAsync();
@@ -14,7 +15,9 @@ namespace UGF.Module.Analytics.Runtime
         void SendEvent(GlobalId eventId, IAnalyticsEventData data);
         void SendEvent<T>(string name, T data) where T : IAnalyticsEventData;
         void SendEvent(string name, IAnalyticsEventData data);
-        AnalyticsEventDescription GetEventDescription(GlobalId eventId);
-        bool TryGetEventDescription(GlobalId eventId, out AnalyticsEventDescription description);
+        T GetEventDescription<T>(GlobalId eventId) where T : class, IAnalyticsEventDescription;
+        IAnalyticsEventDescription GetEventDescription(GlobalId eventId);
+        bool TryGetEventDescription<T>(GlobalId eventId, out T description) where T : class, IAnalyticsEventDescription;
+        bool TryGetEventDescription(GlobalId eventId, out IAnalyticsEventDescription description);
     }
 }
