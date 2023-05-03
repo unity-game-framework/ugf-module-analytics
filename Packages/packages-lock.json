@@ -95,7 +95,7 @@
       "dependencies": {
         "com.ugf.application": "8.5.0",
         "com.ugf.module.services": "1.0.0-preview.1",
-        "com.unity.services.analytics": "4.4.1"
+        "com.unity.services.analytics": "4.4.2"
       }
     },
     "com.ugf.module.services": {
@@ -141,7 +141,7 @@
       "url": "https://packages.unity.com"
     },
     "com.unity.services.analytics": {
-      "version": "4.4.1",
+      "version": "4.4.2",
       "depth": 1,
       "source": "registry",
       "dependencies": {
