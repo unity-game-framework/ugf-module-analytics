@@ -21,6 +21,6 @@
   "dependencies": {
     "com.ugf.application": "8.5.0",
     "com.ugf.module.services": "1.0.0-preview.1",
-    "com.unity.services.analytics": "4.4.1"
+    "com.unity.services.analytics": "4.4.2"
   }
 }
