@@ -5,6 +5,18 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.0.0-preview.6](https://github.com/unity-game-framework/ugf-module-analytics/releases/tag/1.0.0-preview.6) - 2023-05-03  
+
+### Release Notes
+
+- [Milestone](https://github.com/unity-game-framework/ugf-module-analytics/milestone/7?closed=1)  
+    
+
+### Changed
+
+- Update dependencies ([#13](https://github.com/unity-game-framework/ugf-module-analytics/issues/13))  
+    - Update dependencies: `com.unity.services.analytics` to `4.4.2` version.
+
 ## [1.0.0-preview.5](https://github.com/unity-game-framework/ugf-module-analytics/releases/tag/1.0.0-preview.5) - 2023-04-08  
 
 ### Release Notes
