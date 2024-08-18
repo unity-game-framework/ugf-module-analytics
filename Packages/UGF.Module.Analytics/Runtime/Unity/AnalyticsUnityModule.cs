@@ -1,7 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using UGF.Application.Runtime;
-using UGF.Logs.Runtime;
 using Unity.Services.Analytics;
 
 namespace UGF.Module.Analytics.Runtime.Unity
@@ -10,35 +10,65 @@ namespace UGF.Module.Analytics.Runtime.Unity
     {
         public IAnalyticsService Service { get { return AnalyticsService.Instance; } }
 
+        private readonly Dictionary<string, AnalyticsUnityEventParameters> m_parameters = new Dictionary<string, AnalyticsUnityEventParameters>();
+
         public AnalyticsUnityModule(AnalyticsUnityModuleDescription description, IApplication application) : base(description, application)
         {
         }
 
-        protected override async Task<bool> OnEnableAsync()
+        protected override Task<bool> OnEnableAsync()
         {
-            List<string> ids = await Service.CheckForRequiredConsents();
+            Service.StartDataCollection();
 
-            Log.Debug("Analytics Unity module enable", new
+            return Task.FromResult(true);
+        }
+
+        protected override Task OnDisableAsync()
+        {
+            Service.StopDataCollection();
+
+            return Task.CompletedTask;
+        }
+
+        protected override void OnSendEvent(string name)
+        {
+            Service.RecordEvent(name);
+        }
+
+        protected override void OnSendEvent(IAnalyticsEvent analyticsEvent)
+        {
+            AnalyticsUnityEventParameters parameters = GetParameters(analyticsEvent.Name);
+
+            analyticsEvent.GetParameters(parameters);
+
+            Service.RecordEvent(parameters.UnityEvent);
+
+            parameters.Clear();
+        }
+
+        protected override void OnSendEvent<T>(T analyticsEvent)
+        {
+            AnalyticsUnityEventParameters parameters = GetParameters(analyticsEvent.Name);
+
+            analyticsEvent.GetParameters(parameters);
+
+            Service.RecordEvent(parameters.UnityEvent);
+
+            parameters.Clear();
+        }
+
+        private AnalyticsUnityEventParameters GetParameters(string name)
+        {
+            if (string.IsNullOrEmpty(name)) throw new ArgumentException("Value cannot be null or empty.", nameof(name));
+
+            if (!m_parameters.TryGetValue(name, out AnalyticsUnityEventParameters parameters))
             {
-                consents = ids.Count
-            });
+                parameters = new AnalyticsUnityEventParameters(name);
 
-            return ids.Count == 0;
-        }
+                m_parameters.Add(name, parameters);
+            }
 
-        protected override async Task OnDisableAsync()
-        {
-            await Service.SetAnalyticsEnabled(false);
-        }
-
-        protected override void OnSendEvent(IAnalyticsEventDescription description, IDictionary<string, object> parameters)
-        {
-            Service.CustomData(description.Name, parameters);
-        }
-
-        protected override void OnSendEvent(IAnalyticsEventDescription description)
-        {
-            Service.CustomData(description.Name);
+            return parameters;
         }
     }
 }
