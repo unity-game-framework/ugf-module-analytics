@@ -93,8 +93,7 @@
       "depth": 0,
       "source": "embedded",
       "dependencies": {
-        "com.ugf.module.services": "1.0.0-preview.3",
-        "com.unity.services.analytics": "5.1.1"
+        "com.ugf.module.services": "1.0.0-preview.3"
       }
     },
     "com.ugf.module.services": {
@@ -135,14 +134,14 @@
     },
     "com.unity.nuget.newtonsoft-json": {
       "version": "3.2.1",
-      "depth": 3,
+      "depth": 2,
       "source": "registry",
       "dependencies": {},
       "url": "https://packages.unity.com"
     },
     "com.unity.services.analytics": {
       "version": "5.1.1",
-      "depth": 1,
+      "depth": 0,
       "source": "registry",
       "dependencies": {
         "com.unity.ugui": "1.0.0",
@@ -153,7 +152,7 @@
     },
     "com.unity.services.core": {
       "version": "1.13.0",
-      "depth": 2,
+      "depth": 1,
       "source": "registry",
       "dependencies": {
         "com.unity.modules.unitywebrequest": "1.0.0",
@@ -175,7 +174,7 @@
     },
     "com.unity.ugui": {
       "version": "2.0.0",
-      "depth": 2,
+      "depth": 1,
       "source": "builtin",
       "dependencies": {
         "com.unity.modules.ui": "1.0.0",
@@ -184,7 +183,7 @@
     },
     "com.unity.modules.androidjni": {
       "version": "1.0.0",
-      "depth": 3,
+      "depth": 2,
       "source": "builtin",
       "dependencies": {}
     },
@@ -202,13 +201,13 @@
     },
     "com.unity.modules.ui": {
       "version": "1.0.0",
-      "depth": 3,
+      "depth": 2,
       "source": "builtin",
       "dependencies": {}
     },
     "com.unity.modules.unitywebrequest": {
       "version": "1.0.0",
-      "depth": 3,
+      "depth": 2,
       "source": "builtin",
       "dependencies": {}
     }
