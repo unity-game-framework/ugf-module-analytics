@@ -12,12 +12,15 @@ namespace UGF.Module.Analytics.Runtime
     {
         public bool IsEnabled { get { return m_state; } }
 
+        protected ILog Logger { get; }
+
         IAnalyticsModuleDescription IAnalyticsModule.Description { get { return Description; } }
 
         private InitializeState m_state;
 
         protected AnalyticsModule(TDescription description, IApplication application) : base(description, application)
         {
+            Logger = Log.CreateWithLabel(GetType().Name);
         }
 
         protected override async Task OnInitializeAsync()
@@ -36,7 +39,7 @@ namespace UGF.Module.Analytics.Runtime
             {
                 m_state = m_state.Initialize();
 
-                Log.Debug("Analytics module enabled.");
+                Logger.Debug("Enabled.");
 
                 return true;
             }
@@ -48,7 +51,7 @@ namespace UGF.Module.Analytics.Runtime
         {
             m_state = m_state.Uninitialize();
 
-            Log.Debug("Analytics module disabled.");
+            Logger.Debug("Disabled.");
 
             return OnDisableAsync();
         }

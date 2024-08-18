@@ -15,7 +15,7 @@ namespace UGF.Module.Analytics.Runtime.Unity
         public bool EnableOnInitializeAsync { get { return m_enableOnInitializeAsync; } set { m_enableOnInitializeAsync = value; } }
         public List<AssetIdReference<AnalyticsEventDescriptionAsset>> Events { get { return m_events; } }
 
-        protected override IApplicationModuleDescription OnBuildDescription()
+        protected override AnalyticsUnityModuleDescription OnBuildDescription()
         {
             var events = new Dictionary<GlobalId, IAnalyticsEventDescription>();
 
@@ -27,7 +27,6 @@ namespace UGF.Module.Analytics.Runtime.Unity
             }
 
             return new AnalyticsUnityModuleDescription(
-                typeof(IAnalyticsModule),
                 m_enableOnInitializeAsync,
                 events
             );

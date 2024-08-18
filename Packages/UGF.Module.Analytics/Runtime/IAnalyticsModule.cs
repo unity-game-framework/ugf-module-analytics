@@ -6,7 +6,7 @@ namespace UGF.Module.Analytics.Runtime
 {
     public interface IAnalyticsModule : IApplicationModule
     {
-        new IAnalyticsModuleDescription Description { get; }
+        IAnalyticsModuleDescription Description { get; }
         bool IsEnabled { get; }
 
         Task<bool> EnableAsync();
