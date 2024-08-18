@@ -23,6 +23,10 @@ namespace UGF.Module.Analytics.Editor.Unity
 
                 EditorGUILayout.PropertyField(m_propertyEnableOnInitializeAsync);
             }
+
+#if !UGF_MODULE_ANALYTICS_ANALYTICS_INSTALLED
+            EditorGUILayout.HelpBox("Analytics Unity Module: Analytics package required.", MessageType.Warning);
+#endif
         }
     }
 }

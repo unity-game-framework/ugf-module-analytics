@@ -18,6 +18,12 @@
     "precompiledReferences": [],
     "autoReferenced": true,
     "defineConstraints": [],
-    "versionDefines": [],
+    "versionDefines": [
+        {
+            "name": "com.unity.services.analytics",
+            "expression": "5.1.1",
+            "define": "UGF_MODULE_ANALYTICS_ANALYTICS_INSTALLED"
+        }
+    ],
     "noEngineReferences": false
 }

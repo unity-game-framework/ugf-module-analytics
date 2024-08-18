@@ -1,4 +1,5 @@
-﻿using System;
+﻿#if UGF_MODULE_ANALYTICS_ANALYTICS_INSTALLED
+using System;
 using Unity.Services.Analytics;
 
 namespace UGF.Module.Analytics.Runtime.Unity
@@ -45,3 +46,4 @@ namespace UGF.Module.Analytics.Runtime.Unity
         }
     }
 }
+#endif
