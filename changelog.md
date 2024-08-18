@@ -5,6 +5,24 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.0.0-preview.7](https://github.com/unity-game-framework/ugf-module-analytics/releases/tag/1.0.0-preview.7) - 2024-08-18  
+
+### Release Notes
+
+- [Milestone](https://github.com/unity-game-framework/ugf-module-analytics/milestone/8?closed=1)  
+    
+
+### Changed
+
+- Update package ([#15](https://github.com/unity-game-framework/ugf-module-analytics/issues/15))  
+    - Update dependencies: `com.ugf.module.services` to `1.0.0-preview.3`, remove `com.unity.services.analytics` package.
+    - Update package _Unity_ version to `2023.2`.
+    - Update package registry to _UPM Hub_.
+    - Change `AnalyticsModule<T>` and related classes to support updated _Application_ package.
+    - Change `AnalyticsUnityModule` and related classes to only work when _Analytics_ package installed.
+    - Change _Analytics Event_ parameters setup to use cached containers, instead of raw collections.
+    - Remove `IAnalyticsEventDescription` and related classes, use `IAnalyticsEvent` interface instead.
+
 ## [1.0.0-preview.6](https://github.com/unity-game-framework/ugf-module-analytics/releases/tag/1.0.0-preview.6) - 2023-05-03  
 
 ### Release Notes
