@@ -1,41 +1,35 @@
-﻿using System.Collections.Generic;
-using UGF.Application.Runtime;
-using UGF.EditorTools.Runtime.Assets;
-using UGF.EditorTools.Runtime.Ids;
+﻿using UGF.Application.Runtime;
 using UnityEngine;
 
 namespace UGF.Module.Analytics.Runtime.Unity
 {
     [CreateAssetMenu(menuName = "Unity Game Framework/Analytics/Analytics Unity Module", order = 2000)]
-    public class AnalyticsUnityModuleAsset : ApplicationModuleAsset<AnalyticsUnityModule, AnalyticsUnityModuleDescription>
+    public class AnalyticsUnityModuleAsset
+#if UGF_MODULE_ANALYTICS_ANALYTICS_INSTALLED
+        : ApplicationModuleAsset<AnalyticsUnityModule, AnalyticsUnityModuleDescription>
+#else
+        : ApplicationModuleAsset<IApplicationModule, AnalyticsUnityModuleDescription>
+#endif
     {
         [SerializeField] private bool m_enableOnInitializeAsync;
-        [SerializeField] private List<AssetIdReference<AnalyticsEventDescriptionAsset>> m_events = new List<AssetIdReference<AnalyticsEventDescriptionAsset>>();
 
         public bool EnableOnInitializeAsync { get { return m_enableOnInitializeAsync; } set { m_enableOnInitializeAsync = value; } }
-        public List<AssetIdReference<AnalyticsEventDescriptionAsset>> Events { get { return m_events; } }
 
-        protected override IApplicationModuleDescription OnBuildDescription()
+        protected override AnalyticsUnityModuleDescription OnBuildDescription()
         {
-            var events = new Dictionary<GlobalId, IAnalyticsEventDescription>();
-
-            for (int i = 0; i < m_events.Count; i++)
-            {
-                AssetIdReference<AnalyticsEventDescriptionAsset> reference = m_events[i];
-
-                events.Add(reference.Guid, reference.Asset.Build());
-            }
-
-            return new AnalyticsUnityModuleDescription(
-                typeof(IAnalyticsModule),
-                m_enableOnInitializeAsync,
-                events
-            );
+            return new AnalyticsUnityModuleDescription(m_enableOnInitializeAsync);
         }
 
+#if UGF_MODULE_ANALYTICS_ANALYTICS_INSTALLED
         protected override AnalyticsUnityModule OnBuild(AnalyticsUnityModuleDescription description, IApplication application)
         {
             return new AnalyticsUnityModule(description, application);
         }
+#else
+        protected override IApplicationModule OnBuild(AnalyticsUnityModuleDescription description, IApplication application)
+        {
+            throw new System.NotSupportedException("Analytics Unity Module: Analytics package required.");
+        }
+#endif
     }
 }

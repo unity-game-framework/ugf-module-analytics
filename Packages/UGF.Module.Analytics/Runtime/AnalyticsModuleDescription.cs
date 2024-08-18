@@ -1,20 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using UGF.Application.Runtime;
-using UGF.EditorTools.Runtime.Ids;
+﻿using UGF.Application.Runtime;
 
 namespace UGF.Module.Analytics.Runtime
 {
-    public class AnalyticsModuleDescription : ApplicationModuleDescription, IAnalyticsModuleDescription
+    public class AnalyticsModuleDescription : ApplicationModuleDescription
     {
         public bool EnableOnInitializeAsync { get; }
-        public IReadOnlyDictionary<GlobalId, IAnalyticsEventDescription> Events { get; }
 
-        public AnalyticsModuleDescription(Type registerType, bool enableOnInitializeAsync, IReadOnlyDictionary<GlobalId, IAnalyticsEventDescription> events)
+        public AnalyticsModuleDescription(bool enableOnInitializeAsync)
         {
-            RegisterType = registerType ?? throw new ArgumentNullException(nameof(registerType));
             EnableOnInitializeAsync = enableOnInitializeAsync;
-            Events = events ?? throw new ArgumentNullException(nameof(events));
         }
     }
 }
