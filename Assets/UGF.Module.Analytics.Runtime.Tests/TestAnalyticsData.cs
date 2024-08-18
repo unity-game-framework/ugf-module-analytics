@@ -1,12 +1,15 @@
 ﻿using System;
-using System.Collections.Generic;
 
 namespace UGF.Module.Analytics.Runtime.Tests
 {
-    public readonly struct TestAnalyticsData : IAnalyticsEventData
+    public readonly struct TestAnalyticsData : IAnalyticsEvent
     {
         public string Name { get; }
         public int Value { get; }
+
+        public TestAnalyticsData(int value) : this("TestEvent", value)
+        {
+        }
 
         public TestAnalyticsData(string name, int value)
         {
@@ -16,28 +19,9 @@ namespace UGF.Module.Analytics.Runtime.Tests
             Value = value;
         }
 
-        public void GetParameters(IAnalyticsEventDescription description, IDictionary<string, object> data)
+        public void GetParameters(IAnalyticsEventParameters parameters)
         {
-            if (description is not TestAnalyticsDataDescription eventDescription) throw new ArgumentException("Event description type mismatch.");
-            if (data == null) throw new ArgumentNullException(nameof(data));
-
-            data.Add(eventDescription.NameParameterName, Name);
-            data.Add(eventDescription.ValueParameterName, Value);
-        }
-    }
-
-    public class TestAnalyticsDataDescription : AnalyticsEventDescription
-    {
-        public string NameParameterName { get; }
-        public string ValueParameterName { get; }
-
-        public TestAnalyticsDataDescription(string name, string nameParameterName, string valueParameterName) : base(name)
-        {
-            if (string.IsNullOrEmpty(nameParameterName)) throw new ArgumentException("Value cannot be null or empty.", nameof(nameParameterName));
-            if (string.IsNullOrEmpty(valueParameterName)) throw new ArgumentException("Value cannot be null or empty.", nameof(valueParameterName));
-
-            NameParameterName = nameParameterName;
-            ValueParameterName = valueParameterName;
+            parameters.Set("Value", Value);
         }
     }
 }
